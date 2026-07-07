@@ -1,17 +1,11 @@
 name: Build check
 
 # Validate that the Nix flake builds before anything is merged to main,
-# so a broken site never reaches the deploy workflow. On PRs, also attach
-# a preview: the built site as a downloadable artifact, plus desktop and
-# mobile screenshots posted as a PR comment.
+# so a broken site never reaches the deploy workflow.
 on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-
-permissions:
-  contents: write # push the screenshots branch
-  pull-requests: write # post/update the preview comment
 
 jobs:
   build:
@@ -46,83 +40,3 @@ jobs:
         with:
           name: site-preview
           path: public
-
-      - name: Install Playwright Chromium
-        if: github.event_name == 'pull_request'
-        run: |
-          npm init -y > /dev/null
-          npm install playwright@1 > /dev/null
-          npx playwright install --with-deps chromium
-
-      - name: Screenshot the built site
-        if: github.event_name == 'pull_request'
-        run: |
-          python3 -m http.server 8080 --directory public &
-          sleep 1
-          cat > shot.js <<'EOF'
-          const { chromium } = require('playwright');
-          (async () => {
-            const browser = await chromium.launch();
-            const shots = [
-              ['desktop', { width: 1280, height: 900 }],
-              ['mobile', { width: 390, height: 844 }],
-            ];
-            for (const [name, viewport] of shots) {
-              const page = await browser.newPage({ viewport });
-              await page.goto('http://localhost:8080/', { waitUntil: 'networkidle' });
-              // The site paints via a client-side runtime; give it time to settle.
-              await page.waitForTimeout(6000);
-              await page.screenshot({ path: name + '.png', fullPage: true });
-              await page.close();
-            }
-            await browser.close();
-          })();
-          EOF
-          node shot.js
-          mkdir -p screens
-          mv desktop.png mobile.png screens/
-
-      - name: Publish the screenshots to a preview branch
-        if: github.event_name == 'pull_request'
-        id: publish
-        run: |
-          cd screens
-          git init -q -b "pr-preview-screens/${{ github.event.pull_request.number }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add .
-          git commit -qm "Preview screenshots for PR #${{ github.event.pull_request.number }} @ ${{ github.event.pull_request.head.sha }}"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" HEAD
-          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-
-      - name: Post or update the preview comment
-        if: github.event_name == 'pull_request'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const marker = '<!-- pr-build-preview -->';
-            const sha = '${{ steps.publish.outputs.sha }}';
-            const headShort = context.payload.pull_request.head.sha.slice(0, 7);
-            const raw = `https://raw.githubusercontent.com/${context.repo.owner}/${context.repo.repo}/${sha}`;
-            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const body = [
-              marker,
-              `### Build preview for \`${headShort}\``,
-              '',
-              `**[Download the built site](${runUrl}#artifacts)** (\`site-preview\` artifact) — unzip and open \`index.html\` in a browser.`,
-              '',
-              '| Desktop (1280w) | Mobile (390w) |',
-              '| --- | --- |',
-              `| <img src="${raw}/desktop.png" width="500"> | <img src="${raw}/mobile.png" width="180"> |`,
-            ].join('\n');
-            const { data: comments } = await github.rest.issues.listComments({
-              ...context.repo,
-              issue_number: context.issue.number,
-              per_page: 100,
-            });
-            const existing = comments.find(c => c.body && c.body.startsWith(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({ ...context.repo, comment_id: existing.id, body });
-            } else {
-              await github.rest.issues.createComment({ ...context.repo, issue_number: context.issue.number, body });
-            }
