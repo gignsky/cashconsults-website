@@ -141,7 +141,7 @@ values already archived in
   only and is unrelated to hosting.
 - [X] Delete `site/CNAME` (GitHub-Pages-specific, now vestigial)
 - [X] **Now** flip the repo to private in GitHub settings
-- [ ] Confirm Cloudflare's GitHub App still has access to the repo
+- [X] Confirm Cloudflare's GitHub App still has access to the repo
   post-privacy (GitHub → **Settings → Integrations → GitHub Apps**) —
   usually carries over automatically, but check
 - [ ] Push a trivial change and confirm Cloudflare's Git integration still
@@ -159,9 +159,9 @@ isn't disabled until Phase 4.
 ## Verification checklist
 
 - [ ] `*.workers.dev` preview renders identically to current production
-- [ ] Throwaway `cfcheck.cashconsults.com` serves via Cloudflare with valid HTTPS
-- [ ] Custom domain cert for `cashconsults.com` shows **Active** before DNS cutover
-- [ ] Post-cutover: apex and `www` both return 200 with valid certs
+- [X] Throwaway `cfcheck.cashconsults.com` serves via Cloudflare with valid HTTPS
+- [X] Custom domain cert for `cashconsults.com` shows **Active** before DNS cutover
+- [X] Post-cutover: apex and `www` both return 200 with valid certs
 - [ ] No mixed-content warnings; inlined JS runtime still paints correctly
 - [ ] `cashrealestateconsulting.com` and `drrupp.org` redirects still land on the new site
 - [ ] Push-to-deploy works end-to-end from the (eventually private) repo
