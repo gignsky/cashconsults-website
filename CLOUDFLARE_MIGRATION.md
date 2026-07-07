@@ -136,11 +136,11 @@ values already archived in
 ### Disabled by removing visibility to private
 - [ ] GitHub repo → **Settings → Pages** → remove the custom domain /
   disable Pages
-- [ ] Remove `.github/workflows/deploy.yml` (deploy now happens via
+- [X] Remove `.github/workflows/deploy.yml` (deploy now happens via
   Cloudflare's Git integration). Keep `check.yml` — it's PR lint/preview
   only and is unrelated to hosting.
-- [ ] Delete `site/CNAME` (GitHub-Pages-specific, now vestigial)
-- [ ] **Now** flip the repo to private in GitHub settings
+- [X] Delete `site/CNAME` (GitHub-Pages-specific, now vestigial)
+- [X] **Now** flip the repo to private in GitHub settings
 - [ ] Confirm Cloudflare's GitHub App still has access to the repo
   post-privacy (GitHub → **Settings → Integrations → GitHub Apps**) —
   usually carries over automatically, but check
