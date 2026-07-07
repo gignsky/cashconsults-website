@@ -40,7 +40,7 @@
 
           meta = {
             description = "CASH Consults landing page";
-            homepage = "https://cashrealestateconsulting.com";
+            homepage = "https://cashconsults.com";
           };
         };
       in

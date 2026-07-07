@@ -1,0 +1,49 @@
+;; cashrealestateconsulting.com — redirect-to-primary records ONLY
+;;
+;; CUTOVER FILE: use this to DEMOTE cashrealestateconsulting.com from the
+;; primary GitHub Pages domain to a redirect that sends visitors to the new
+;; primary, cashconsults.com. (It replaces the old
+;; cashrealestateconsulting.com-github-pages.zone from the testing phase.)
+;;
+;; Import this file in the Cloudflare dashboard:
+;;   cashrealestateconsulting.com zone -> DNS -> Records ->
+;;   Import and Export -> Import DNS records
+;;
+;; SAFETY: This file is ADDITIVE. A Cloudflare import only ADDS the records
+;; listed below — it never deletes or modifies existing records. This file
+;; contains NO MX, NO TXT, NO SPF/DKIM/DMARC records, so importing it cannot
+;; touch your email configuration.
+;;
+;; HOW THIS WORKS: the domain stops pointing at GitHub Pages (a Pages site can
+;; only serve one custom domain, which is now cashconsults.com). These two
+;; proxied records make Cloudflare answer for the hostname — 192.0.2.1 is a
+;; reserved documentation IP that never routes anywhere — and a Redirect Rule
+;; (created by hand, step 3 below) sends visitors to https://cashconsults.com
+;; before the dummy IP is ever contacted. The cf-proxied tags below import the
+;; records as Proxied (orange cloud), which is REQUIRED for the redirect.
+;;
+;; IMPORTANT — do these by hand (see dns/README.md); verified against the
+;; 2026-07-07 zone export, in which the only web records are the GitHub Pages
+;; ones this repo added during the testing phase:
+;;   1. Export a backup of the zone first.
+;;   2. DELETE the testing-phase GitHub Pages records so they stop competing
+;;      with the redirect:
+;;        - the four apex A records (185.199.108-111.153)
+;;        - the four apex AAAA records (2606:50c0:800x::153)
+;;        - the "www" CNAME -> gignsky.github.io
+;;      Touch NOTHING else — KEEP all email records exactly as they are:
+;;      the three MX (route1/2/3.mx.cloudflare.net), the SPF TXT, the DKIM
+;;      TXTs (cf2024-1._domainkey and *._domainkey), the DMARC TXT, and the
+;;      Canva verification TXT.
+;;   3. After importing, create the redirect: Rules -> Redirect Rules ->
+;;      Create rule -> When: All incoming requests -> Then: Dynamic redirect,
+;;      expression:
+;;        concat("https://cashconsults.com", http.request.uri.path)
+;;      status 302, Preserve query string. Deploy.
+
+$ORIGIN cashrealestateconsulting.com.
+$TTL 300
+
+;; Proxied placeholders so Cloudflare answers and the redirect rule fires
+cashrealestateconsulting.com.	300	IN	A	192.0.2.1 ; cf_tags=cf-proxied:true
+www.cashrealestateconsulting.com.	300	IN	A	192.0.2.1 ; cf_tags=cf-proxied:true

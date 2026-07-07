@@ -25,9 +25,8 @@
 ;;   3. After importing, create the redirect: Rules -> Redirect Rules ->
 ;;      Create rule -> When: All incoming requests -> Then: Dynamic redirect,
 ;;      expression:
-;;        concat("https://cashrealestateconsulting.com", http.request.uri.path)
-;;      status 302. (Point it at https://cashconsults.com instead after the
-;;      cutover — see dns/README.md.)
+;;        concat("https://cashconsults.com", http.request.uri.path)
+;;      status 302, Preserve query string. Deploy.
 
 $ORIGIN drrupp.org.
 $TTL 300
