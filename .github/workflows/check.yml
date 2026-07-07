@@ -1,0 +1,30 @@
+name: Build check
+
+# Validate that the Nix flake builds before anything is merged to main,
+# so a broken site never reaches the deploy workflow.
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Check flake
+        run: nix flake check --print-build-logs
+
+      - name: Build the site
+        run: nix build .#site --print-build-logs
+
+      - name: Show what was built
+        run: ls -la result/

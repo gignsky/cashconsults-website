@@ -1,0 +1,35 @@
+;; cashconsults.com — GitHub Pages records ONLY
+;;
+;; Import this file in the Cloudflare dashboard:
+;;   cashconsults.com zone -> DNS -> Records -> Import and Export -> Import DNS records
+;;
+;; SAFETY: This file is ADDITIVE. A Cloudflare import only ADDS the records
+;; listed below — it never deletes or modifies existing records. This file
+;; contains NO MX, NO TXT, NO SPF/DKIM/DMARC records, so importing it cannot
+;; touch your email configuration.
+;;
+;; IMPORTANT — before importing, do these two things by hand (see dns/README.md):
+;;   1. Delete any EXISTING A, AAAA, or CNAME records on "cashconsults.com" (the
+;;      apex/@) and on "www" that point at old hosting. Touch NOTHING else —
+;;      leave every MX, TXT, SRV, and mail-/dkim-/dmarc-named record alone.
+;;   2. When importing, UNCHECK "Proxy imported DNS records" so these come in
+;;      as DNS-only (grey cloud). GitHub cannot issue the HTTPS certificate
+;;      while Cloudflare is proxying the records.
+
+$ORIGIN cashconsults.com.
+$TTL 300
+
+;; Apex -> GitHub Pages (IPv4)
+cashconsults.com.	300	IN	A	185.199.108.153
+cashconsults.com.	300	IN	A	185.199.109.153
+cashconsults.com.	300	IN	A	185.199.110.153
+cashconsults.com.	300	IN	A	185.199.111.153
+
+;; Apex -> GitHub Pages (IPv6)
+cashconsults.com.	300	IN	AAAA	2606:50c0:8000::153
+cashconsults.com.	300	IN	AAAA	2606:50c0:8001::153
+cashconsults.com.	300	IN	AAAA	2606:50c0:8002::153
+cashconsults.com.	300	IN	AAAA	2606:50c0:8003::153
+
+;; www -> the GitHub Pages user domain
+www.cashconsults.com.	300	IN	CNAME	gignsky.github.io.
