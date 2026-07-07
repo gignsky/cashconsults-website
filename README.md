@@ -10,6 +10,11 @@ Structure is modeled on the [council](https://github.com/gignsky/council)
 repo: a Nix flake builds the static site, and GitHub Actions deploys the
 flake output to GitHub Pages.
 
+**Hosting is migrating to Cloudflare Workers (static assets).** See
+[`CLOUDFLARE_MIGRATION.md`](CLOUDFLARE_MIGRATION.md) for the zero-downtime
+cutover runbook; `wrangler.jsonc` is already in place for that migration.
+Everything below describes the current (pre-migration) GitHub Pages setup.
+
 ## Layout
 
 | Path                            | What it is                                               |
@@ -21,6 +26,8 @@ flake output to GitHub Pages.
 | `.github/workflows/check.yml`   | PR gate: builds the flake, uploads the built site as an artifact, and posts preview screenshots on the PR. |
 | `.github/workflows/preview-cleanup.yml` | Deletes a PR's screenshots branch when the PR closes. |
 | `dns/`                          | Cloudflare import file + step-by-step DNS instructions.  |
+| `wrangler.jsonc`                | Cloudflare Workers static-assets config (`site/`), for the Cloudflare migration. |
+| `CLOUDFLARE_MIGRATION.md`       | Zero-downtime runbook for migrating hosting to Cloudflare. |
 
 ## Local development
 
