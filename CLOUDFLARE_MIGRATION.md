@@ -90,15 +90,15 @@ config PR and point the production branch back to `main` before moving on.
 
 ## Phase 2 — Prove the custom domain + HTTPS work before touching production DNS
 
-- [ ] *(Optional, recommended)* Add a throwaway proxied CNAME, e.g.
+- [X] *(Optional, recommended)* Add a throwaway proxied CNAME, e.g.
   `cfcheck.cashconsults.com` → the Worker, and confirm HTTPS + correct
   rendering there first. Validates Cloudflare's proxy/cert behavior against
   the real zone without touching the apex.
-- [ ] Worker → **Settings → Domains & Routes → add custom domain**:
+- [X] Worker → **Settings → Domains & Routes → add custom domain**:
   `cashconsults.com` (and `www.cashconsults.com` if both should resolve
   directly). Cloudflare provisions the certificate automatically — it's
   already the DNS authority for the zone, so validation is immediate.
-- [ ] Cloudflare will flag the existing apex A/AAAA records (GitHub Pages
+- [X] Cloudflare will flag the existing apex A/AAAA records (GitHub Pages
   IPs) and the `www` CNAME (`gignsky.github.io`) as conflicting.
   **Don't let it auto-overwrite yet.** Wait until the new cert shows
   **Active** while the old records are still live and still serving GitHub
@@ -106,6 +106,7 @@ config PR and point the production branch back to `main` before moving on.
 
 ## Phase 3 — Zero-downtime cutover
 
+### SKIPPED AND REMOVED OLD A AND AAAA RECORDS
 - [ ] Lower the TTL on the apex/`www` records first if they aren't already
   low; pick a low-traffic window.
 - [ ] In the Cloudflare DNS zone, replace:
@@ -132,14 +133,15 @@ while (hours, not days — rollback is just restoring two DNS records to the
 values already archived in
 [`dns/cashconsults.com-github-pages.zone`](dns/cashconsults.com-github-pages.zone)):
 
+### Disabled by removing visibility to private
 - [ ] GitHub repo → **Settings → Pages** → remove the custom domain /
   disable Pages
-- [ ] Remove `.github/workflows/deploy.yml` (deploy now happens via
+- [X] Remove `.github/workflows/deploy.yml` (deploy now happens via
   Cloudflare's Git integration). Keep `check.yml` — it's PR lint/preview
   only and is unrelated to hosting.
-- [ ] Delete `site/CNAME` (GitHub-Pages-specific, now vestigial)
-- [ ] **Now** flip the repo to private in GitHub settings
-- [ ] Confirm Cloudflare's GitHub App still has access to the repo
+- [X] Delete `site/CNAME` (GitHub-Pages-specific, now vestigial)
+- [X] **Now** flip the repo to private in GitHub settings
+- [X] Confirm Cloudflare's GitHub App still has access to the repo
   post-privacy (GitHub → **Settings → Integrations → GitHub Apps**) —
   usually carries over automatically, but check
 - [ ] Push a trivial change and confirm Cloudflare's Git integration still
@@ -156,14 +158,14 @@ isn't disabled until Phase 4.
 
 ## Verification checklist
 
-- [ ] `*.workers.dev` preview renders identically to current production
-- [ ] Throwaway `cfcheck.cashconsults.com` serves via Cloudflare with valid HTTPS
-- [ ] Custom domain cert for `cashconsults.com` shows **Active** before DNS cutover
-- [ ] Post-cutover: apex and `www` both return 200 with valid certs
-- [ ] No mixed-content warnings; inlined JS runtime still paints correctly
-- [ ] `cashrealestateconsulting.com` and `drrupp.org` redirects still land on the new site
-- [ ] Push-to-deploy works end-to-end from the (eventually private) repo
-- [ ] Old GitHub Pages config removed, `site/CNAME` deleted, `deploy.yml` removed
+- [X] `*.workers.dev` preview renders identically to current production
+- [X] Throwaway `cfcheck.cashconsults.com` serves via Cloudflare with valid HTTPS
+- [X] Custom domain cert for `cashconsults.com` shows **Active** before DNS cutover
+- [X] Post-cutover: apex and `www` both return 200 with valid certs
+- [X] No mixed-content warnings; inlined JS runtime still paints correctly
+- [X] `cashrealestateconsulting.com` and `drrupp.org` redirects still land on the new site
+- [X] Push-to-deploy works end-to-end from the (eventually private) repo
+- [X] Old GitHub Pages config removed, `site/CNAME` deleted, `deploy.yml` removed
 
 ## Appendix: Per-PR preview subdomains on cashconsults.com
 
