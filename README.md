@@ -19,7 +19,8 @@ flake output to GitHub Pages.
 | `design/`                       | The editable design source (`Cash Consulting Site.dc.html`), original assets, and the deploy handoff notes. |
 | `flake.nix`                     | Builds the deployable site and provides the dev shell.   |
 | `.github/workflows/deploy.yml`  | Builds the flake output and publishes it to GitHub Pages.|
-| `.github/workflows/check.yml`   | PR gate: the flake must build before merging to main.    |
+| `.github/workflows/check.yml`   | PR gate: builds the flake, uploads the built site as an artifact, and posts preview screenshots on the PR. |
+| `.github/workflows/preview-cleanup.yml` | Deletes a PR's screenshots branch when the PR closes. |
 | `dns/`                          | Cloudflare import file + step-by-step DNS instructions.  |
 
 ## Local development
@@ -33,6 +34,18 @@ live-server site       # live-reloading preview
 nix build .#site       # produce the deployable tree at ./result
 nix run                # preview the built site at http://localhost:8080
 ```
+
+## Previewing a PR before merging
+
+Every PR gets two previews from the **Build check** workflow, no dev
+environment needed:
+
+- **Screenshots** — a bot comment on the PR shows full-page desktop and
+  mobile renders of the built site, updated on every push (images live on a
+  throwaway `pr-preview-screens/<PR#>` branch, deleted when the PR closes).
+- **The real build** — the `site-preview` artifact on the workflow run is
+  the exact `nix build .#site` output. Download, unzip, and open
+  `index.html` in a browser.
 
 ## Deployment
 
