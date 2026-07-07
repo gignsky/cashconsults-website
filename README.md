@@ -1,11 +1,11 @@
 # cashconsults-website
 
-The temporary **"Site in Progress"** landing page for the CASH Consults /
-Rupp domains. **Currently in a testing phase with
+The **Cash Consulting** website — Maxwell Rupp: real estate appraisals +
+small-business tech support. **Currently in a testing phase with
 [cashrealestateconsulting.com](https://cashrealestateconsulting.com) as the
 primary domain**; the plan is to cut over to `cashconsults.com` once the
-test looks good, with `drrupp.org` and `rupp.life` landing here via
-Cloudflare redirects (see [`dns/README.md`](dns/README.md)).
+test looks good, with `drrupp.org` landing here via a Cloudflare redirect
+(see [`dns/README.md`](dns/README.md)).
 
 Structure is modeled on the [council](https://github.com/gignsky/council)
 repo: a Nix flake builds the static site, and GitHub Actions deploys the
@@ -15,7 +15,8 @@ flake output to GitHub Pages.
 
 | Path                            | What it is                                               |
 | ------------------------------- | -------------------------------------------------------- |
-| `site/`                         | The static site source (`index.html`, `CNAME`).          |
+| `site/`                         | The deployable site (`index.html`, `CNAME`). `index.html` is compiled output — don't hand-edit it (see `design/HANDOFF.md`). |
+| `design/`                       | The editable design source (`Cash Consulting Site.dc.html`), original assets, and the deploy handoff notes. |
 | `flake.nix`                     | Builds the deployable site and provides the dev shell.   |
 | `.github/workflows/deploy.yml`  | Builds the flake output and publishes it to GitHub Pages.|
 | `.github/workflows/check.yml`   | PR gate: the flake must build before merging to main.    |
@@ -69,7 +70,8 @@ Everything DNS lives in [`dns/README.md`](dns/README.md):
 - **`dns/cashconsults.com-github-pages.zone`** — staged for the later
   cutover to `cashconsults.com` as primary (procedure at the bottom of
   `dns/README.md`).
-- Non-primary domains are handled with Cloudflare **redirect rules** (a
-  GitHub Pages site can only carry one custom domain) — steps in the same
-  file.
+- **`dns/drrupp.org-redirect.zone`** — proxied placeholder records for
+  `drrupp.org`, which redirects to the primary via a Cloudflare redirect
+  rule (a GitHub Pages site can only carry one custom domain) — steps in
+  the same file.
 - `dns/exports/` — archived zone exports, kept as pre-change backups.

@@ -1,7 +1,7 @@
 # DNS setup — pointing the domains at GitHub Pages
 
-The goal: serve the "Site in Progress" page from this repo's GitHub Pages
-deployment on all four domains, **without touching any email DNS**.
+The goal: serve this repo's GitHub Pages deployment on the CASH Consults
+domains, **without touching any email DNS**.
 
 **Current phase: TESTING with `cashrealestateconsulting.com` as the primary
 domain.** Once the test looks good, the plan is to cut over to
@@ -11,8 +11,10 @@ domain.** Once the test looks good, the plan is to cut over to
 | ----------------------------- | ----------------------------------------------------- |
 | `cashrealestateconsulting.com`| **Primary** — bound to this repo via `site/CNAME`     |
 | `cashconsults.com`            | Not yet touched (zone file staged for the cutover)    |
-| `drrupp.org`                  | Later: redirect to the primary (see below)            |
-| `rupp.life`                   | Later: redirect to the primary (see below)            |
+| `drrupp.org`                  | Redirect to the primary (`drrupp.org-redirect.zone`)  |
+
+(`rupp.life` was originally part of this plan but is reserved for another
+project — nothing here touches it.)
 
 A GitHub Pages site can be bound to exactly **one** custom domain, so every
 non-primary domain is handled with Cloudflare redirect rules rather than by
@@ -71,21 +73,23 @@ and `www` records to Proxied (orange cloud) with SSL/TLS mode **Full
 
 ## 2. Non-primary domains — redirect rules
 
-For each domain that should land on the primary (once you're ready to point
-`drrupp.org` and `rupp.life`, and — until the cutover — optionally
-`cashconsults.com` too), assuming the zone is on Cloudflare:
+For each domain that should land on the primary (`drrupp.org` now, and —
+after the cutover — `cashrealestateconsulting.com` itself), assuming the
+zone is on Cloudflare:
 
-1. Open the zone → **Rules → Redirect Rules → Create rule**.
-2. If the zone has no `A` record on the apex, add a dummy proxied record so
-   Cloudflare answers for the hostname:
-   `A` record, Name `@`, IPv4 `192.0.2.1`, **Proxied (orange cloud)** —
-   `192.0.2.1` is a reserved documentation IP that never routes anywhere;
-   the redirect rule fires before the origin is ever contacted. Add the same
-   for `www` if you want `www.` to redirect too.
-3. Rule: **When** Hostname *contains* the domain (or use "All incoming
-   requests" for the whole zone) → **Then** Dynamic redirect, expression
+1. **Import the domain's `-redirect.zone` file** (e.g.
+   `drrupp.org-redirect.zone`) via DNS → Records → *Import and Export* →
+   **Import DNS records**. It adds two **proxied** placeholder `A` records
+   (`@` and `www` → `192.0.2.1`, a reserved documentation IP that never
+   routes anywhere) so Cloudflare answers for the hostname. As with every
+   file here it is additive-only and contains no MX/TXT records. Delete any
+   old `A`/`AAAA`/`CNAME` records on `@`/`www` first; touch nothing else.
+2. Open the zone → **Rules → Redirect Rules → Create rule**.
+3. Rule: **When** "All incoming requests" → **Then** Dynamic redirect,
+   expression
    `concat("https://cashrealestateconsulting.com", http.request.uri.path)`,
-   status **302** (use 301 only once you're sure this is permanent).
+   status **302** (use 301 only once you're sure this is permanent). The
+   rule fires before the placeholder origin is ever contacted.
 
 Email safety is the same story here: a redirect rule and a proxied web
 record have no effect on `MX`/`TXT` records. Don't delete or edit any

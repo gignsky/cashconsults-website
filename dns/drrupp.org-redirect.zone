@@ -1,0 +1,37 @@
+;; drrupp.org — redirect-to-primary records ONLY
+;;
+;; Import this file in the Cloudflare dashboard:
+;;   drrupp.org zone -> DNS -> Records -> Import and Export -> Import DNS records
+;;
+;; SAFETY: This file is ADDITIVE. A Cloudflare import only ADDS the records
+;; listed below — it never deletes or modifies existing records. This file
+;; contains NO MX, NO TXT, NO SPF/DKIM/DMARC records, so importing it cannot
+;; touch your email configuration.
+;;
+;; HOW THIS WORKS: this domain does not point at GitHub Pages directly (a
+;; Pages site can only serve one custom domain). Instead, these two records
+;; make Cloudflare answer for the hostname — 192.0.2.1 is a reserved
+;; documentation IP that never routes anywhere — and a Redirect Rule (created
+;; by hand, step 3 below) sends visitors to the live site before the dummy
+;; IP is ever contacted. The cf-proxied tags below import the records as
+;; Proxied (orange cloud), which is REQUIRED for the redirect to fire.
+;;
+;; IMPORTANT — do these by hand (see dns/README.md):
+;;   1. Export a backup of the zone first.
+;;   2. Before importing, delete any EXISTING A, AAAA, or CNAME records on
+;;      "drrupp.org" (the apex/@) and on "www" that point at old hosting.
+;;      Touch NOTHING else — leave every MX, TXT, SRV, and
+;;      mail-/dkim-/dmarc-named record alone.
+;;   3. After importing, create the redirect: Rules -> Redirect Rules ->
+;;      Create rule -> When: All incoming requests -> Then: Dynamic redirect,
+;;      expression:
+;;        concat("https://cashrealestateconsulting.com", http.request.uri.path)
+;;      status 302. (Point it at https://cashconsults.com instead after the
+;;      cutover — see dns/README.md.)
+
+$ORIGIN drrupp.org.
+$TTL 300
+
+;; Proxied placeholders so Cloudflare answers and the redirect rule fires
+drrupp.org.	300	IN	A	192.0.2.1 ; cf_tags=cf-proxied:true
+www.drrupp.org.	300	IN	A	192.0.2.1 ; cf_tags=cf-proxied:true
