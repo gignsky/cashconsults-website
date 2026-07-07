@@ -165,6 +165,174 @@ isn't disabled until Phase 4.
 - [ ] Push-to-deploy works end-to-end from the (eventually private) repo
 - [ ] Old GitHub Pages config removed, `site/CNAME` deleted, `deploy.yml` removed
 
+## Appendix: Per-PR preview subdomains on cashconsults.com
+
+Once Workers Builds is live (Phase 1), every push already gets an automatic,
+stable **Branch Preview URL** on `*.workers.dev` — Cloudflare generates it
+following the pattern `<branch-name>-<worker-name>.<account-subdomain>.workers.dev`,
+and it stays the same across every commit to that branch. That's the raw
+material; this appendix wires two friendlier addresses on top of it:
+
+- **`pr-<N>.cashconsults.com`** — always shows the current preview build for
+  PR #`<N>`.
+- **`testing.cashconsults.com`** — always shows whichever open PR was most
+  recently updated, or a clean "build failed" page naming that PR if its
+  build isn't currently working.
+- **`testing.drrupp.org`** — since `drrupp.org` already redirects everything
+  to `cashconsults.com`, this needs one extra rule so it lands on
+  `testing.cashconsults.com` specifically, not the bare apex.
+
+### Why not just compute the workers.dev alias directly?
+
+Cloudflare's branch-name-to-subdomain sanitization (how it handles the `/`
+in branch names like `claude/cloudflare-migration-guide-docs`, length
+limits, hashing for long names) isn't something worth hard-coding into our
+own router — it's an implementation detail that could change. Safer and
+simpler: read the **actual** Branch Preview URL that Cloudflare itself posts
+as a PR comment after each build (same UX as it already does for Pages), and
+store `PR number → that URL` in Workers KV. The router then just does a KV
+lookup — no guessing at sanitization rules.
+
+### Architecture
+
+- A second, separate Worker — **`cashconsults-pr-router`** — dedicated to
+  this, so the production site's Worker stays pure static assets. It owns a
+  wildcard **Route** (`*.cashconsults.com/*`; Routes support wildcards,
+  unlike exact-hostname Custom Domains), while the main site keeps its exact
+  Custom Domains (`cashconsults.com`, `www.cashconsults.com`) untouched.
+- A Workers KV namespace (`PR_PREVIEWS`) mapping `pr-<N>` → the current
+  Branch Preview URL for that PR.
+- A GitHub Actions workflow that watches for Cloudflare's own bot comment on
+  each PR, extracts the Branch Preview URL, and writes it into KV. A
+  companion step clears the KV entry when the PR closes (same pattern as the
+  existing `preview-cleanup.yml`).
+- The router, at request time:
+  - `pr-<N>.cashconsults.com` → look up `pr-<N>` in KV, proxy the request
+    there; if missing or the preview errors, render a clean page linking to
+    `github.com/gignsky/cashconsults-website/pull/<N>/checks`.
+  - `testing.cashconsults.com` → ask the GitHub API for the most recently
+    updated open PR, look up *that* PR's KV entry, proxy or show the same
+    clean error page naming it.
+
+### Temporary phase — prove it out by hand
+
+- [ ] Create the router Worker (`wrangler init` in a new `pr-router/`
+  folder, no `assets`, just a `main` script) and the `PR_PREVIEWS` KV
+  namespace (`wrangler kv namespace create PR_PREVIEWS`).
+- [ ] Deploy the router manually (`wrangler deploy`) and bind it to a
+  **single** test hostname first — e.g. `pr-4.cashconsults.com` — rather
+  than the wildcard, so nothing else on the zone is affected while
+  iterating.
+- [ ] Manually seed one KV entry for that PR
+  (`wrangler kv key put --namespace-id=<id> pr-4 "<branch-preview-url>"`)
+  and confirm `https://pr-4.cashconsults.com` proxies it correctly.
+- [ ] Manually break it (e.g. point the KV value at a bad URL) and confirm
+  the error page renders cleanly instead of a raw Cloudflare error.
+
+### Permanent phase — generalize and automate
+
+- [ ] Swap the single test hostname for the wildcard Route
+  `*.cashconsults.com/*`, and add a wildcard DNS record `*.cashconsults.com`
+  (proxied) — additive, doesn't touch the apex/`www`/MX/TXT records already
+  there.
+- [ ] Add the GitHub Actions sync workflow (watches Cloudflare's PR comment,
+  writes to KV) and a cleanup step on PR close.
+- [ ] Add `CLOUDFLARE_API_TOKEN` (Workers KV:Edit) and
+  `CLOUDFLARE_ACCOUNT_ID` as new repo secrets for that workflow to use.
+- [ ] Once the main repo goes private (Phase 4), also give the router a
+  read-only `GITHUB_TOKEN` secret (fine-grained PAT, this repo only) — it
+  needs to read PR metadata for the `testing.cashconsults.com` lookup, which
+  stops working unauthenticated once the repo isn't public.
+
+### testing.drrupp.org
+
+The existing redirect rule on the `drrupp.org` zone
+([`dns/drrupp.org-redirect.zone`](dns/drrupp.org-redirect.zone),
+[`dns/README.md`](dns/README.md) — "All incoming requests" →
+`concat("https://cashconsults.com", http.request.uri.path)`) drops the
+subdomain, so `testing.drrupp.org` would otherwise redirect to bare
+`cashconsults.com`, not `testing.cashconsults.com`. Fix:
+
+- [ ] Add one more proxied placeholder record to the `drrupp.org` zone:
+  `testing.drrupp.org` → `192.0.2.1` (same pattern as the existing
+  `@`/`www` placeholders in `dns/drrupp.org-redirect.zone`) — additive, no
+  MX/TXT impact.
+- [ ] Add a second Redirect Rule on the `drrupp.org` zone, **above** the
+  existing catch-all in priority: When `hostname eq "testing.drrupp.org"` →
+  Dynamic redirect, expression
+  `concat("https://testing.cashconsults.com", http.request.uri.path)`, same
+  redirect-status and "Preserve query string" settings as the existing rule.
+
+### Reference Worker (starting point, not tested against a live account)
+
+```js
+// pr-router/src/index.js
+const REPO = "gignsky/cashconsults-website";
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const prMatch = url.hostname.match(/^pr-(\d+)\.cashconsults\.com$/);
+
+    if (prMatch) return servePr(Number(prMatch[1]), url, env);
+    if (url.hostname === "testing.cashconsults.com") return serveTesting(url, env);
+    return new Response("Not found", { status: 404 });
+  },
+};
+
+async function servePr(prNumber, url, env) {
+  const target = await env.PR_PREVIEWS.get(`pr-${prNumber}`);
+  if (!target) return errorPage(prNumber, "no preview recorded yet");
+  return proxyOrError(target, url, prNumber);
+}
+
+async function serveTesting(url, env) {
+  const pr = await mostRecentOpenPr(env);
+  if (!pr) return errorPage("n/a", "no open PRs found");
+  const target = await env.PR_PREVIEWS.get(`pr-${pr.number}`);
+  if (!target) return errorPage(pr.number, "no preview recorded yet");
+  return proxyOrError(target, url, pr.number);
+}
+
+async function proxyOrError(target, url, prNumber) {
+  const res = await fetch(target + url.pathname + url.search);
+  if (!res.ok) return errorPage(prNumber, `preview responded with HTTP ${res.status}`);
+  return new Response(res.body, res);
+}
+
+async function mostRecentOpenPr(env) {
+  const res = await fetch(
+    `https://api.github.com/repos/${REPO}/pulls?state=open&sort=updated&direction=desc&per_page=1`,
+    {
+      headers: {
+        "User-Agent": "cashconsults-pr-router",
+        Accept: "application/vnd.github+json",
+        ...(env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : {}),
+      },
+    }
+  );
+  if (!res.ok) return null;
+  const prs = await res.json();
+  return prs[0] ?? null;
+}
+
+function errorPage(prNumber, reason) {
+  const checksUrl = `https://github.com/${REPO}/pull/${prNumber}/checks`;
+  const html = `<!doctype html><meta charset="utf-8">
+<title>Preview unavailable</title>
+<body style="font:16px sans-serif;max-width:40em;margin:4em auto;padding:0 1em">
+<h1>Preview unavailable</h1>
+<p>PR #${prNumber} isn't showing a live preview right now: ${reason}.</p>
+<p>That's the build failing, not this router — check <a href="${checksUrl}">the PR's build logs</a> for the actual error.</p>
+</body>`;
+  return new Response(html, { status: 502, headers: { "content-type": "text/html; charset=utf-8" } });
+}
+```
+
+Adjust the KV binding name, repo slug, and GitHub API auth to match whatever
+is actually configured before deploying this for real — this is a shape to
+build from, not copy-paste-ready production code.
+
 ## Cloudflare vs. GitHub Pages, in short
 
 | | GitHub Pages | Cloudflare (Pages / Workers static assets) |

@@ -114,6 +114,12 @@ records, so email keeps working throughout.
 > Until then a redirect domain will forward correctly but may hit a GitHub
 > 404.
 
+> **`testing.drrupp.org`:** this catch-all rule would otherwise redirect it
+> to bare `cashconsults.com`, dropping the `testing.` subdomain. See
+> [`CLOUDFLARE_MIGRATION.md`](../CLOUDFLARE_MIGRATION.md#testingdrrupporg)
+> for the extra record + higher-priority rule needed to land it on
+> `testing.cashconsults.com` instead.
+
 ## 3. (Optional but recommended) Verify the domains on GitHub
 
 GitHub account-level domain verification prevents anyone else from claiming
