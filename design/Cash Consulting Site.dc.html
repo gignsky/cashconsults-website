@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=Kaushan+Script&amp;display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:#faf8f1;font-family:'Newsreader',Georgia,serif;color:#14261c;-webkit-font-smoothing:antialiased}
+  a{color:#0d5f38;text-decoration:none}
+  a:hover{color:#094d2c}
+  ::selection{background:#9bc078;color:#06341e}
+  input,select,textarea{font-family:'Newsreader',Georgia,serif}
+</style>
+</helmet>
+
+<template id="__bundler_thumbnail">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><rect width="400" height="400" fill="#06341e"></rect><g fill="none" stroke="#9bc078" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(90,95) scale(5.5)"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></g></svg>
+</template>
+
+<!-- ============ NAV ============ -->
+<nav data-screen-label="nav" style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 44px;background:rgba(6,52,30,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(155,192,120,.18)">
+  <a href="#top" style="display:flex;align-items:center;gap:13px">
+    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
+    <span style="line-height:1.02"><span style="display:block;font:700 18px 'Playfair Display',serif;color:#fff;letter-spacing:.01em">Cash Consulting</span><span style="display:block;font-size:10px;letter-spacing:.22em;color:#9bc078;text-transform:uppercase">Maxwell Rupp · Charlotte, NC</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500;color:rgba(255,255,255,.85)">
+    <a href="#real-estate" style="color:rgba(255,255,255,.85)">Real Estate</a>
+    <a href="#support" style="color:rgba(255,255,255,.85)">Business Support</a>
+    <a href="#about" style="color:rgba(255,255,255,.85)">About</a>
+    <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;background:#9bc078;color:#06341e;padding:10px 18px;border-radius:999px;font-weight:600" style-hover="background:#c6dfac;color:#06341e">704-292-6994</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="top" data-screen-label="hero" style="position:relative;overflow:hidden;background:#06341e;color:#fff;padding:96px 44px 104px;text-align:center">
+  <svg style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.06;pointer-events:none" width="640" height="640" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
+  <div style="position:relative">
+    <div style="font-family:'Kaushan Script',cursive;font-size:30px;color:#9bc078;margin-bottom:10px">Honest work, done right</div>
+    <h1 style="font:800 74px/1.02 'Playfair Display',serif;letter-spacing:-.02em;margin:0 auto;max-width:900px">Two things I do well.<br>Both without the runaround.</h1>
+    <p style="font-size:20px;line-height:1.6;color:rgba(255,255,255,.8);max-width:600px;margin:26px auto 0">Certified real estate appraisals on one side, roll-up-your-sleeves small business support on the other. Same person, same promise — a straight answer and a job finished.</p>
+    <div style="display:flex;gap:14px;justify-content:center;margin-top:36px">
+      <a href="#contact" style="background:#9bc078;color:#06341e;padding:15px 28px;border-radius:999px;font-size:16px;font-weight:600">Book a consultation</a>
+      <a href="tel:7042926994" style="border:1.5px solid rgba(155,192,120,.55);color:#fff;padding:15px 28px;border-radius:999px;font-size:16px;font-weight:600">Call 704-292-6994</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ THE SPLIT ============ -->
+<section data-screen-label="split" style="display:grid;grid-template-columns:1fr 1fr">
+  <div style="padding:64px 56px;background:#f4f1e8;border-right:1px solid rgba(9,77,44,.14)">
+    <div style="font-family:'Kaushan Script',cursive;font-size:24px;color:#0d5f38;margin-bottom:4px">Side A</div>
+    <div style="font:700 12px ui-monospace,monospace;letter-spacing:.16em;color:#0d5f38;text-transform:uppercase">Real Estate</div>
+    <h2 style="font:700 38px/1.08 'Playfair Display',serif;color:#14261c;margin:14px 0 16px;letter-spacing:-.02em">Appraisals you can defend.</h2>
+    <p style="font-size:16.5px;line-height:1.65;color:rgba(20,38,28,.72);margin:0 0 26px;max-width:440px">Quick, accurate, dependable valuations for lenders, attorneys, and homeowners. Need measurements while I'm on site? Add them on.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;max-width:440px">
+      <div style="display:flex;align-items:center;gap:13px;background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:12px;padding:15px 18px"><span style="width:9px;height:9px;border-radius:50%;background:#094d2c"></span><b style="font-size:16px;color:#14261c">Appraisals</b><span style="margin-left:auto;font:700 11px ui-monospace,monospace;color:#0d5f38">PRIMARY</span></div>
+      <div style="display:flex;align-items:center;gap:13px;background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:12px;padding:15px 18px"><span style="width:9px;height:9px;border-radius:50%;background:#9bc078"></span><b style="font-size:16px;color:#14261c">Measurements</b><span style="margin-left:auto;font-size:12px;color:rgba(20,38,28,.5)">add-on</span></div>
+      <div style="padding:4px 18px;font-size:14px;color:rgba(20,38,28,.5);font-style:italic">Photography available on request</div>
+    </div>
+    <a href="#real-estate" style="display:inline-block;margin-top:26px;font-weight:600;font-size:15px">Explore real estate services →</a>
+  </div>
+  <div style="padding:64px 56px;background:#06341e;color:#fff">
+    <div style="font-family:'Kaushan Script',cursive;font-size:24px;color:#9bc078;margin-bottom:4px">Side B</div>
+    <div style="font:700 12px ui-monospace,monospace;letter-spacing:.16em;color:#9bc078;text-transform:uppercase">Small Business Support</div>
+    <h2 style="font:700 38px/1.08 'Playfair Display',serif;margin:14px 0 16px;letter-spacing:-.02em">If it's a problem, I probably fix it.</h2>
+    <p style="font-size:16.5px;line-height:1.65;color:rgba(255,255,255,.78);margin:0 0 26px;max-width:440px">Tech support, business data management, servers, networks, and custom software — the practical stuff small shops need and don't have staff for.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px;max-width:460px">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:12px;padding:16px"><b style="font-size:15.5px;color:#c6dfac">Tech Support</b><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:5px">It beeps &amp; won't behave</div></div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:12px;padding:16px"><b style="font-size:15.5px;color:#c6dfac">Data Management</b><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:5px">Custom, no pricey software</div></div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:12px;padding:16px"><b style="font-size:15.5px;color:#c6dfac">Servers &amp; Networks</b><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:5px">Router to full rack</div></div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:12px;padding:16px"><b style="font-size:15.5px;color:#c6dfac">Not sure?</b><div style="font-size:13px;color:rgba(255,255,255,.6);margin-top:5px">Just ask — I'll tell you straight</div></div>
+    </div>
+    <a href="#support" style="display:inline-block;margin-top:26px;font-weight:600;font-size:15px;color:#9bc078">Explore business support →</a>
+  </div>
+</section>
+
+<!-- ============ REAL ESTATE DETAIL ============ -->
+<section id="real-estate" data-screen-label="real-estate" style="padding:88px 56px;background:#faf8f1">
+  <div style="max-width:1080px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:52px">
+      <div style="font-family:'Kaushan Script',cursive;font-size:26px;color:#0d5f38">The real estate side</div>
+      <h2 style="font:700 46px/1.05 'Playfair Display',serif;letter-spacing:-.02em;margin:6px 0 14px">A number you can stand behind</h2>
+      <p style="font-size:17px;line-height:1.6;color:rgba(20,38,28,.68);max-width:600px;margin:0 auto">Appraisals are the heart of what I do. Everything else is there to make the visit worth your while.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:36px;align-items:stretch">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#094d2c;color:#fff;border-radius:18px;padding:32px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between"><h3 style="font:700 26px 'Playfair Display',serif;margin:0">Appraisals</h3><span style="font:700 11px ui-monospace,monospace;color:#9bc078;letter-spacing:.12em">PRIMARY SERVICE</span></div>
+          <div style="display:flex;gap:8px;margin:14px 0 12px">
+            <span style="font:700 11px ui-monospace,monospace;letter-spacing:.1em;color:#06341e;background:#9bc078;padding:5px 11px;border-radius:999px">INDEPENDENT</span>
+            <span style="font:700 11px ui-monospace,monospace;letter-spacing:.1em;color:#06341e;background:#9bc078;padding:5px 11px;border-radius:999px">UNBIASED</span>
+          </div>
+          <p style="font-size:15.5px;line-height:1.6;color:rgba(255,255,255,.82);margin:0">Credible valuations delivered quickly, documented thoroughly, and easy to defend when it matters. My only obligation is to an honest number — never to the result anyone hopes for.</p>
+          <div style="margin-top:16px;padding:15px 17px;background:rgba(155,192,120,.13);border:1px solid rgba(155,192,120,.3);border-radius:12px;font-size:14px;line-height:1.6;color:rgba(255,255,255,.82)"><b style="color:#c6dfac">How hiring works:</b> For mortgage purchases &amp; refinances, the lender has to be the client and order the appraisal — so I can't be hired directly for those. For estates, divorce, tax appeals, pre-listing, and private pre-purchase valuations, you can hire me directly.</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:18px;padding:26px">
+            <h3 style="font:700 21px 'Playfair Display',serif;margin:0 0 8px">Measurements</h3>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(20,38,28,.68);margin:0">Accurate square footage and sketches — best added on while I'm already at the property.</p>
+          </div>
+          <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:18px;padding:26px">
+            <h3 style="font:700 21px 'Playfair Display',serif;margin:0 0 8px">Photography</h3>
+            <p style="font-size:14.5px;line-height:1.55;color:rgba(20,38,28,.68);margin:0">Clean property photos on request when you need them for the file or a listing.</p>
+          </div>
+        </div>
+      </div>
+      <div style="border-radius:18px;overflow:hidden;background:#fff;border:1px solid rgba(9,77,44,.12);display:flex;flex-direction:column;min-height:320px">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px 18px"><img src="assets/floorplan.png" alt="Building sketch with room-by-room measurements" style="max-width:100%;max-height:100%;object-fit:contain"></div>
+        <div style="padding:11px 16px;background:#f4f1e8;border-top:1px solid rgba(9,77,44,.1);font:600 12px ui-monospace,monospace;color:rgba(20,38,28,.55);text-align:center;letter-spacing:.02em">Sample building sketch — measurements add-on</div>
+      </div>
+    </div>
+    <div style="margin-top:34px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;padding:22px;background:#f4f1e8;border-radius:14px">
+      <span style="font-size:15px;color:rgba(20,38,28,.7)">Need an appraisal in the Charlotte area?</span>
+      <a href="#contact" style="background:#094d2c;color:#fff;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px">Request a quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUSINESS SUPPORT DETAIL ============ -->
+<section id="support" data-screen-label="support" style="padding:88px 56px;background:#06341e;color:#fff">
+  <div style="max-width:1080px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:52px">
+      <div style="font-family:'Kaushan Script',cursive;font-size:26px;color:#9bc078">The business support side</div>
+      <h2 style="font:700 46px/1.05 'Playfair Display',serif;letter-spacing:-.02em;margin:6px 0 14px">A capable pair of hands, on call</h2>
+      <p style="font-size:17px;line-height:1.6;color:rgba(255,255,255,.75);max-width:640px;margin:0 auto">The stuff a small business needs done but can't justify a full-time hire for. Here's what I can take off your plate.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+      <div style="background:#0d5f38;border-radius:18px;padding:30px">
+        <h3 style="font:700 24px 'Playfair Display',serif;margin:0 0 6px;color:#fff">Tech Support</h3>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.72);margin:0 0 14px">If it beeps and won't behave, I'll sort it out.</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#c6dfac">
+          <li>Computers, printers, phones &amp; peripherals</li>
+          <li>Wi-Fi, internet &amp; connectivity headaches</li>
+          <li>Software setup, updates &amp; cleanup</li>
+          <li>Backups so you don't lose your work</li>
+        </ul>
+      </div>
+      <div style="background:#0d5f38;border-radius:18px;padding:30px">
+        <h3 style="font:700 24px 'Playfair Display',serif;margin:0 0 6px;color:#fff">Business Data Management</h3>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.72);margin:0 0 14px">Your numbers, organized without the overhead.</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#c6dfac">
+          <li>Custom Excel sheet built around your business</li>
+          <li>No pricey QuickBooks subscription required</li>
+          <li>Simple enough for you to manage yourself</li>
+          <li>Or hand it to me to keep in line for you</li>
+        </ul>
+      </div>
+      <div style="background:#0d5f38;border-radius:18px;padding:30px">
+        <h3 style="font:700 24px 'Playfair Display',serif;margin:0 0 6px;color:#fff">Servers &amp; Networks</h3>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.72);margin:0 0 14px">From a single office router to a full rack.</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#c6dfac">
+          <li>Build, configure &amp; wire servers</li>
+          <li>Office networking, routers &amp; switches</li>
+          <li>File sharing &amp; storage that just works</li>
+          <li>Maintenance so it keeps running</li>
+        </ul>
+      </div>
+      <div style="background:#0d5f38;border-radius:18px;padding:30px">
+        <h3 style="font:700 24px 'Playfair Display',serif;margin:0 0 6px;color:#fff">Custom Software &amp; Systems</h3>
+        <p style="font-size:14.5px;line-height:1.55;color:rgba(255,255,255,.72);margin:0 0 14px">When off-the-shelf doesn't quite fit.</p>
+        <ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7;color:#c6dfac">
+          <li>Small custom tools built around how you work</li>
+          <li>Automating the repetitive, time-sucking tasks</li>
+          <li>Tidier procedures &amp; workflows that scale</li>
+          <li>Practical solutions, not over-engineered ones</li>
+        </ul>
+      </div>
+      <div style="background:rgba(155,192,120,.12);border:1px solid rgba(155,192,120,.35);border-radius:18px;padding:30px;display:flex;flex-direction:column;justify-content:center">
+        <h3 style="font:700 24px 'Playfair Display',serif;margin:0 0 8px;color:#fff">Not sure it fits a box?</h3>
+        <p style="font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);margin:0 0 16px">Most of what I get called for doesn't. If it's a problem holding your business back, tell me about it — I'll give you an honest yes, no, or "here's who can."</p>
+        <a href="#contact" style="align-self:flex-start;background:#9bc078;color:#06341e;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px">Tell me what you need</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT / TRUST ============ -->
+<section id="about" data-screen-label="about" style="padding:88px 56px;background:#f4f1e8">
+  <div style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center">
+    <div style="border-radius:18px;overflow:hidden;border:1px solid rgba(9,77,44,.12);min-height:340px;background:#e6e1d0">
+      <img src="uploads/Headshot.jpg" alt="Maxwell Rupp" style="width:100%;height:100%;min-height:340px;object-fit:cover;object-position:center 22%;display:block">
+    </div>
+    <div>
+      <div style="font-family:'Kaushan Script',cursive;font-size:28px;color:#0d5f38">Nice to meet you</div>
+      <h2 style="font:700 42px/1.06 'Playfair Display',serif;letter-spacing:-.02em;margin:6px 0 18px">I'm Maxwell Rupp.</h2>
+      <p style="font-size:17px;line-height:1.7;color:rgba(20,38,28,.75);margin:0 0 16px">I run Cash Consulting out of Charlotte, and I keep it simple: I'll work for any man, woman, or child who can pay and values the honest work I'm capable of. Whether that's a defensible appraisal or a server that finally behaves, you get the same person from the first call to the finished job.</p>
+      <p style="font-size:17px;line-height:1.7;color:rgba(20,38,28,.75);margin:0 0 20px">I've been a Certified Residential Appraiser since 2023, with a couple more years in the field before that — and a lifetime of tinkering with tech that turned into a real second trade. Young enough to actually enjoy the technology, seasoned enough to be trusted with the number.</p>
+      <div style="border-left:3px solid #9bc078;padding:4px 0 4px 18px">
+        <div style="font-family:'Kaushan Script',cursive;font-size:22px;color:#0d5f38;line-height:1">Why "Cash"?</div>
+        <p style="font-size:15.5px;line-height:1.6;color:rgba(20,38,28,.7);margin:6px 0 0">It's my legal middle name — my maternal family name. So the business is named for family, and it's run like it: honestly, and with something to live up to.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:24px">
+        <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:14px;padding:20px"><div style="font:800 30px 'Playfair Display',serif;color:#094d2c">5+ yrs</div><div style="font-size:13.5px;color:rgba(20,38,28,.6)">in the appraisal field</div></div>
+        <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:14px;padding:20px"><div style="font:800 20px 'Playfair Display',serif;color:#094d2c;line-height:1.1">Certified Residential</div><div style="font-size:13.5px;color:rgba(20,38,28,.6)">Appraiser since 2023</div></div>
+        <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:14px;padding:20px"><div style="font:800 22px 'Playfair Display',serif;color:#094d2c">Greater Charlotte</div><div style="font-size:13.5px;color:rgba(20,38,28,.6)">area · North Carolina</div></div>
+        <div style="background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:14px;padding:20px"><div style="font:800 22px 'Playfair Display',serif;color:#094d2c">Lifetime</div><div style="font-size:13.5px;color:rgba(20,38,28,.6)">hands-on with tech</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" data-screen-label="contact" style="padding:88px 56px;background:#06341e;color:#fff">
+  <div style="max-width:1000px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:46px">
+      <div style="font-family:'Kaushan Script',cursive;font-size:28px;color:#9bc078">Let's talk</div>
+      <h2 style="font:700 48px/1.04 'Playfair Display',serif;letter-spacing:-.02em;margin:6px 0 12px">Get in touch</h2>
+      <p style="font-size:17px;line-height:1.6;color:rgba(255,255,255,.75);max-width:560px;margin:0 auto">Call, email, or send the form below. Whichever's easiest — you'll reach me either way.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:.9fr 1.1fr;gap:36px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <a href="tel:7042926994" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:14px;padding:20px 22px;color:#fff">
+          <span style="font:800 22px 'Playfair Display',serif;color:#9bc078">☎</span>
+          <span><span style="display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9bc078">Call or text</span><span style="display:block;font-size:19px;font-weight:600">704-292-6994</span></span>
+        </a>
+        <a href="mailto:maxwell@cashconsults.com" style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:14px;padding:20px 22px;color:#fff">
+          <span style="font:800 22px 'Playfair Display',serif;color:#9bc078">✉</span>
+          <span><span style="display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9bc078">Email</span><span style="display:block;font-size:17px;font-weight:600">maxwell@cashconsults.com</span></span>
+        </a>
+        <div style="display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.06);border:1px solid rgba(155,192,120,.25);border-radius:14px;padding:20px 22px">
+          <span style="font:800 22px 'Playfair Display',serif;color:#9bc078">◎</span>
+          <span><span style="display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#9bc078">Service area</span><span style="display:block;font-size:17px;font-weight:600">Greater Charlotte area, North Carolina</span></span>
+        </div>
+      </div>
+      <form onSubmit="{{ submit }}" style="background:#faf8f1;border-radius:18px;padding:30px;color:#14261c">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <label style="display:block"><span style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Name</span><input name="name" required="" style="width:100%;padding:12px 14px;border:1px solid rgba(9,77,44,.22);border-radius:10px;font-size:15px;background:#fff"></label>
+          <label style="display:block"><span style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Phone or email</span><input name="contact" required="" style="width:100%;padding:12px 14px;border:1px solid rgba(9,77,44,.22);border-radius:10px;font-size:15px;background:#fff"></label>
+        </div>
+        <label style="display:block;margin-top:14px"><span style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">What can I help with?</span>
+          <select name="service" style="width:100%;padding:12px 14px;border:1px solid rgba(9,77,44,.22);border-radius:10px;font-size:15px;background:#fff">
+            <option>Appraisal</option>
+            <option>Appraisal + measurements</option>
+            <option>Photography</option>
+            <option>Tech support</option>
+            <option>Business data management</option>
+            <option>Servers &amp; networking</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label style="display:block;margin-top:14px"><span style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">Tell me a bit more</span><textarea name="message" rows="4" style="width:100%;padding:12px 14px;border:1px solid rgba(9,77,44,.22);border-radius:10px;font-size:15px;background:#fff;resize:vertical"></textarea></label>
+        <button type="submit" style="margin-top:18px;width:100%;background:#094d2c;color:#fff;border:none;padding:15px;border-radius:999px;font:600 16px 'Newsreader',serif;cursor:pointer" style-hover="background:#0d5f38">Send it my way</button>
+        <p style="font-size:12.5px;color:rgba(20,38,28,.5);text-align:center;margin:12px 0 0">Opens your email to me, pre-filled. Prefer to call? 704-292-6994.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer data-screen-label="footer" style="background:#04250f;color:rgba(255,255,255,.7);padding:40px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px">
+  <div style="display:flex;align-items:center;gap:13px">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
+    <span style="font:700 16px 'Playfair Display',serif;color:#fff">Cash Consulting, LLC</span>
+  </div>
+  <div style="font-size:14px">Maxwell Rupp · <a href="tel:7042926994" style="color:#9bc078">704-292-6994</a> · <a href="mailto:maxwell@cashconsults.com" style="color:#9bc078">maxwell@cashconsults.com</a></div>
+  <div style="font-size:13px;color:rgba(255,255,255,.45)">© 2026 · Charlotte, NC</div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      submit: (e) => {
+        e.preventDefault();
+        const f = e.currentTarget;
+        const name = f.name.value || '';
+        const contact = f.contact.value || '';
+        const service = f.service.value || '';
+        const message = f.message.value || '';
+        const body = `Name: ${name}\nContact: ${contact}\nService: ${service}\n\n${message}`;
+        window.location.href = `mailto:maxwell@cashconsults.com?subject=${encodeURIComponent('Website inquiry: ' + service)}&body=${encodeURIComponent(body)}`;
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>
