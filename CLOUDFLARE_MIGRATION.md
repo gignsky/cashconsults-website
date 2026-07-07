@@ -90,15 +90,15 @@ config PR and point the production branch back to `main` before moving on.
 
 ## Phase 2 — Prove the custom domain + HTTPS work before touching production DNS
 
-- [ ] *(Optional, recommended)* Add a throwaway proxied CNAME, e.g.
+- [X] *(Optional, recommended)* Add a throwaway proxied CNAME, e.g.
   `cfcheck.cashconsults.com` → the Worker, and confirm HTTPS + correct
   rendering there first. Validates Cloudflare's proxy/cert behavior against
   the real zone without touching the apex.
-- [ ] Worker → **Settings → Domains & Routes → add custom domain**:
+- [X] Worker → **Settings → Domains & Routes → add custom domain**:
   `cashconsults.com` (and `www.cashconsults.com` if both should resolve
   directly). Cloudflare provisions the certificate automatically — it's
   already the DNS authority for the zone, so validation is immediate.
-- [ ] Cloudflare will flag the existing apex A/AAAA records (GitHub Pages
+- [X] Cloudflare will flag the existing apex A/AAAA records (GitHub Pages
   IPs) and the `www` CNAME (`gignsky.github.io`) as conflicting.
   **Don't let it auto-overwrite yet.** Wait until the new cert shows
   **Active** while the old records are still live and still serving GitHub
@@ -106,6 +106,7 @@ config PR and point the production branch back to `main` before moving on.
 
 ## Phase 3 — Zero-downtime cutover
 
+### SKIPPED AND REMOVED OLD A AND AAAA RECORDS
 - [ ] Lower the TTL on the apex/`www` records first if they aren't already
   low; pick a low-traffic window.
 - [ ] In the Cloudflare DNS zone, replace:
@@ -132,6 +133,7 @@ while (hours, not days — rollback is just restoring two DNS records to the
 values already archived in
 [`dns/cashconsults.com-github-pages.zone`](dns/cashconsults.com-github-pages.zone)):
 
+### Disabled by removing visibility to private
 - [ ] GitHub repo → **Settings → Pages** → remove the custom domain /
   disable Pages
 - [ ] Remove `.github/workflows/deploy.yml` (deploy now happens via
