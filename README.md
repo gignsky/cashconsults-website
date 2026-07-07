@@ -1,9 +1,11 @@
 # cashconsults-website
 
-The temporary **"Site in Progress"** landing page for
-**[cashconsults.com](https://cashconsults.com)** — and, for now, the landing
-target for `cashrealestateconsulting.com`, `drrupp.org`, and `rupp.life`
-via Cloudflare redirects.
+The temporary **"Site in Progress"** landing page for the CASH Consults /
+Rupp domains. **Currently in a testing phase with
+[cashrealestateconsulting.com](https://cashrealestateconsulting.com) as the
+primary domain**; the plan is to cut over to `cashconsults.com` once the
+test looks good, with `drrupp.org` and `rupp.life` landing here via
+Cloudflare redirects (see [`dns/README.md`](dns/README.md)).
 
 Structure is modeled on the [council](https://github.com/gignsky/council)
 repo: a Nix flake builds the static site, and GitHub Actions deploys the
@@ -35,7 +37,8 @@ nix run                # preview the built site at http://localhost:8080
 
 Every push to `main` triggers the **Deploy site to GitHub Pages** workflow,
 which runs `nix build .#site` and publishes the result to GitHub Pages. The
-`site/CNAME` file binds the custom domain `cashconsults.com`.
+`site/CNAME` file binds the custom domain `cashrealestateconsulting.com`
+(the testing-phase primary).
 
 ### One-time GitHub setup (human, via the web UI)
 
@@ -44,9 +47,9 @@ which runs `nix build .#site` and publishes the result to GitHub Pages. The
 2. Merge this branch to `main` (or run the deploy workflow manually via
    *Actions → Deploy site to GitHub Pages → Run workflow*) and wait for a
    green run.
-3. **Settings → Pages → Custom domain:** enter `cashconsults.com` and save.
-   With Actions-based deploys this setting is authoritative (the `CNAME`
-   file alone isn't guaranteed to register it), so set it explicitly.
+3. **Settings → Pages → Custom domain:** enter `cashrealestateconsulting.com`
+   and save. With Actions-based deploys this setting is authoritative (the
+   `CNAME` file alone isn't guaranteed to register it), so set it explicitly.
    GitHub will run a DNS check — this only passes **after** the Cloudflare
    records from `dns/` are in place.
 4. Once the DNS check passes and the certificate is issued (can take up to
@@ -58,10 +61,15 @@ which runs `nix build .#site` and publishes the result to GitHub Pages. The
 
 Everything DNS lives in [`dns/README.md`](dns/README.md):
 
-- **`dns/cashconsults.com-github-pages.zone`** — upload this in the
-  Cloudflare dashboard (DNS → Records → Import and Export). It is
-  **additive-only** and contains **no MX/TXT records, so it cannot affect
-  email** — but read the two manual pre-steps in `dns/README.md` first.
-- The other three domains are handled with Cloudflare **redirect rules**
-  to `cashconsults.com` (a GitHub Pages site can only carry one custom
-  domain) — steps in the same file.
+- **`dns/cashrealestateconsulting.com-github-pages.zone`** — upload this in
+  the Cloudflare dashboard (DNS → Records → Import and Export) for the
+  testing phase. It is **additive-only** and contains **no MX/TXT records,
+  so it cannot affect email** — but read the two manual pre-steps in
+  `dns/README.md` first (one old apex CNAME must be deleted by hand).
+- **`dns/cashconsults.com-github-pages.zone`** — staged for the later
+  cutover to `cashconsults.com` as primary (procedure at the bottom of
+  `dns/README.md`).
+- Non-primary domains are handled with Cloudflare **redirect rules** (a
+  GitHub Pages site can only carry one custom domain) — steps in the same
+  file.
+- `dns/exports/` — archived zone exports, kept as pre-change backups.
