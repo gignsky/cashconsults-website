@@ -19,8 +19,8 @@ Everything below describes the current (pre-migration) GitHub Pages setup.
 
 | Path                            | What it is                                               |
 | ------------------------------- | -------------------------------------------------------- |
-| `site/`                         | The deployable site (`index.html`, `CNAME`). `index.html` is compiled output — don't hand-edit it (see `design/HANDOFF.md`). |
-| `design/`                       | The editable design source (`Cash Consulting Site.dc.html`), original assets, and the deploy handoff notes. |
+| `site/`                         | The deployable site: `index.html` (hand-authored static HTML — the source of truth for the live markup) and `assets/` (optimized images). |
+| `design/`                       | The original design source (`Cash Consulting Site.dc.html`), full-size assets, and the deploy handoff notes — kept as the design reference. |
 | `flake.nix`                     | Builds the deployable site and provides the dev shell.   |
 | `.github/workflows/deploy.yml`  | Builds the flake output and publishes it to GitHub Pages.|
 | `.github/workflows/check.yml`   | PR gate: builds the flake, uploads the built site as an artifact, and posts preview screenshots on the PR. |

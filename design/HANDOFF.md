@@ -1,5 +1,14 @@
 # Cash Consulting — Website Deploy Handoff
 
+> **STATUS (July 2026): superseded.** The compiled-bundle delivery described in
+> this document has been replaced: `site/index.html` is now hand-authored,
+> pre-rendered static HTML (with responsive/mobile styles and images in
+> `site/assets/`), and is the source of truth for the live markup. The
+> `.dc.html` file here remains the design reference (visual intent, copy
+> provenance). The CNAME/GitHub-Pages deploy steps below are also obsolete —
+> hosting is Cloudflare Workers static assets (see `wrangler.jsonc` and
+> `CLOUDFLARE_MIGRATION.md`). The rest of this document is kept for history.
+
 A finished redesign of the Cash Consulting site (Maxwell Rupp — real estate
 appraisals + small-business tech support). This bundle is meant to be handed
 to Claude Code to **deploy into the `gignsky/cashconsults-website` repo**.
