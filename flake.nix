@@ -26,8 +26,10 @@
           # Lint the markup, but never let a cosmetic warning fail the deploy.
           buildPhase = ''
             runHook preBuild
-            echo "Checking index.html markup..."
-            tidy -q -e index.html || echo "tidy reported warnings (non-fatal)"
+            find . -name '*.html' | sort | while read -r page; do
+              echo "Checking $page markup..."
+              tidy -q -e "$page" || echo "tidy reported warnings (non-fatal)"
+            done
             runHook postBuild
           '';
 

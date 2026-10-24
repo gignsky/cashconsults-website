@@ -1,0 +1,5 @@
+# CashDesk downloads live on the cashdesk repo's latest GitHub Release, so a new
+# client build never needs a site change.
+/support/download          https://github.com/gignsky/cashdesk/releases/latest/download/CashDesk.exe         302
+/support/download/linux    https://github.com/gignsky/cashdesk/releases/latest/download/CashDesk-x86_64.deb  302
+/support/download/android  https://github.com/gignsky/cashdesk/releases/latest/download/CashDesk.apk         302
