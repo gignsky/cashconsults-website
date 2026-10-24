@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CashDesk — Remote help from Maxwell | Cash Consulting</title>
+<meta name="description" content="CashDesk is the small remote-support app Maxwell Rupp uses to see your screen and fix the problem with you. Download it for Windows, Ubuntu or Android, read him your code, and you stay in charge the whole time.">
+<meta name="theme-color" content="#06341e">
+<link rel="canonical" href="https://cashconsults.com/support/">
+<meta property="og:title" content="CashDesk — Remote help from Maxwell">
+<meta property="og:description" content="A small app that lets Maxwell see your screen and fix the problem with you, from wherever he is. It only connects when you give him the code, and you can end it any time.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://cashconsults.com/support/">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='%2306341e'/%3E%3Cpath d='M6 20 L20 8 L34 20' fill='none' stroke='%239bc078' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M10 22 L10 33 L30 33 L30 22' fill='none' stroke='%239bc078' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;0,900;1,500;1,600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&amp;family=Kaushan+Script&amp;display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#094d2c;
+    --green-darkest:#06341e;
+    --green-footer:#04250f;
+    --green-mid:#0d5f38;
+    --sage:#9bc078;
+    --sage-light:#c6dfac;
+    --paper:#faf8f1;
+    --panel:#f4f1e8;
+    --ink:#14261c;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);font-family:'Newsreader',Georgia,serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:var(--green-mid);text-decoration:none}
+  a:hover{color:var(--green)}
+  ::selection{background:var(--sage);color:var(--green-darkest)}
+  section[id],header[id]{scroll-margin-top:96px}
+
+  /* ---------- shared ---------- */
+  .kicker{font-family:'Kaushan Script',cursive}
+  .btn{display:inline-block;border-radius:999px;font-weight:600}
+  .btn--sage{background:var(--sage);color:var(--green-darkest)}
+  .btn--sage:hover{background:var(--sage-light);color:var(--green-darkest)}
+  .btn--green{background:var(--green);color:#fff}
+  .btn--green:hover{background:var(--green-mid);color:#fff}
+  .btn--outline{border:1.5px solid rgba(155,192,120,.55);color:#fff}
+  .btn--outline:hover{border-color:var(--sage);color:#fff}
+  .section{padding:88px 56px}
+  .section--paper{background:var(--paper)}
+  .section--panel{background:var(--panel)}
+  .section--dark{background:var(--green-darkest);color:#fff}
+  .wrap{max-width:1080px;margin:0 auto}
+  .wrap--narrow{max-width:860px}
+  .section-head{text-align:center;margin-bottom:52px}
+  .section-head .kicker{font-size:26px;color:var(--green-mid)}
+  .section--dark .section-head .kicker{color:var(--sage)}
+  .section-head h2{font:700 clamp(30px,6.5vw,46px)/1.05 'Playfair Display',serif;letter-spacing:-.02em;margin:6px 0 14px}
+  .section-head p{font-size:17px;line-height:1.6;color:rgba(20,38,28,.68);max-width:600px;margin:0 auto}
+  .section--dark .section-head p{color:rgba(255,255,255,.75)}
+
+  /* ---------- nav ---------- */
+  .nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:16px 44px;background:rgba(6,52,30,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(155,192,120,.18)}
+  .nav-brand{display:flex;align-items:center;gap:13px}
+  .nav-brand-text{line-height:1.02}
+  .nav-brand-name{display:block;font:700 18px 'Playfair Display',serif;color:#fff;letter-spacing:.01em}
+  .nav-brand-sub{display:block;font-size:10px;letter-spacing:.22em;color:var(--sage);text-transform:uppercase}
+  .nav-links{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500;margin-left:auto}
+  .nav-links > a{color:rgba(255,255,255,.85);padding:6px 2px}
+  .nav-links > a:hover{color:#fff}
+  .nav-links > a.is-current{color:var(--sage);border-bottom:2px solid var(--sage)}
+  a.nav-phone{display:inline-flex;align-items:center;color:var(--green-darkest);padding:10px 18px;margin-left:30px;font-size:15px}
+  a.nav-phone:hover{color:var(--green-darkest)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden;background:var(--green-darkest);color:#fff;padding:88px 44px 96px;text-align:center}
+  .hero-mark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);opacity:.06;pointer-events:none}
+  .hero-inner{position:relative}
+  .hero .kicker{font-size:clamp(22px,5.5vw,30px);color:var(--sage);margin-bottom:10px}
+  .hero h1{font:800 clamp(44px,10vw,84px)/1 'Playfair Display',serif;letter-spacing:-.02em;margin:0 auto}
+  .hero-lede{font-size:clamp(16.5px,4.3vw,20px);line-height:1.6;color:rgba(255,255,255,.8);max-width:600px;margin:22px auto 0}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:36px}
+  .hero-ctas .btn{padding:16px 30px;font-size:17px}
+  .btn-dl{display:inline-flex;align-items:center;gap:10px}
+  .hero-fine{margin-top:16px;font:600 12px ui-monospace,monospace;letter-spacing:.08em;color:rgba(255,255,255,.55)}
+  .hero-alt{margin-top:14px;font-size:15px;color:rgba(255,255,255,.7)}
+  .hero-alt a{color:var(--sage);font-weight:600}
+  .hero-alt a:hover{color:var(--sage-light)}
+
+  /* ---------- steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+  .step{background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px}
+  .step-num{width:40px;height:40px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font:800 18px 'Playfair Display',serif}
+  .step h3{font:700 21px 'Playfair Display',serif;margin:4px 0 0}
+  .step p{font-size:15px;line-height:1.55;color:rgba(20,38,28,.72);margin:0}
+  .step b{color:var(--ink)}
+
+  /* ---------- smartscreen sketch ---------- */
+  .warn{margin-top:28px;display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;background:var(--panel);border-radius:18px;padding:30px}
+  .warn-text .kicker{font-size:22px;color:var(--green-mid);line-height:1}
+  .warn-text h3{font:700 24px 'Playfair Display',serif;margin:6px 0 10px}
+  .warn-text p{font-size:15.5px;line-height:1.6;color:rgba(20,38,28,.72);margin:0 0 10px}
+  .mock{background:#1f4e8c;color:#fff;border-radius:10px;padding:22px 22px 18px;font-family:system-ui,-apple-system,'Segoe UI',sans-serif;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+  .mock-title{font-size:20px;font-weight:600;margin:0 0 10px}
+  .mock-body{font-size:13px;line-height:1.5;color:rgba(255,255,255,.88);margin:0 0 8px}
+  .mock-link{display:inline-block;font-size:13px;text-decoration:underline;color:#fff;padding:2px 4px;border-radius:4px;outline:2px solid var(--sage);outline-offset:2px}
+  .mock-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+  .mock-btn{font-size:13px;padding:7px 16px;border:1px solid rgba(255,255,255,.6);border-radius:3px;color:#fff}
+  .mock-btn--go{outline:2px solid var(--sage);outline-offset:2px}
+  .mock-cap{margin-top:10px;font:600 12px ui-monospace,monospace;color:rgba(20,38,28,.55);text-align:center}
+
+  /* ---------- other platforms ---------- */
+  .alt{margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .alt-card{background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:18px;padding:26px}
+  .alt-card h3{font:700 21px 'Playfair Display',serif;margin:0 0 6px}
+  .alt-card h3 small{display:block;font:600 12px ui-monospace,monospace;letter-spacing:.08em;color:var(--green-mid);margin-top:4px}
+  .alt-card ol{margin:10px 0 0;padding-left:20px;font-size:15px;line-height:1.6;color:rgba(20,38,28,.72)}
+  .alt-card li{margin:0 0 6px}
+  .alt-card b{color:var(--ink)}
+  .alt-card code{font:600 13px ui-monospace,monospace;background:var(--panel);border-radius:6px;padding:2px 7px;color:var(--green-darkest);overflow-wrap:anywhere}
+  .alt-card .btn{display:inline-block;margin-top:14px;padding:11px 20px;font-size:15px}
+
+  /* ---------- trust ---------- */
+  .trust{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+  .trust-card{background:var(--green-mid);border-radius:18px;padding:28px}
+  .trust-card h3{font:700 22px 'Playfair Display',serif;margin:0 0 8px;color:#fff}
+  .trust-card p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.75);margin:0}
+
+  /* ---------- faq ---------- */
+  .qa{display:flex;flex-direction:column;gap:14px}
+  .qa-item{background:#fff;border:1px solid rgba(9,77,44,.12);border-radius:14px;padding:22px 24px}
+  .qa-item h3{font:700 19px 'Playfair Display',serif;margin:0 0 6px}
+  .qa-item p{font-size:15.5px;line-height:1.6;color:rgba(20,38,28,.72);margin:0}
+  .fine{margin-top:34px;text-align:center;font-size:13.5px;line-height:1.7;color:rgba(20,38,28,.55)}
+
+  /* ---------- call band ---------- */
+  .callband{background:var(--sage);padding:40px 56px}
+  .callband-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+  .callband h2{font:700 clamp(24px,4.6vw,32px)/1.1 'Playfair Display',serif;color:var(--green-darkest);margin:0}
+  .callband p{font-size:16px;color:rgba(6,52,30,.82);margin:6px 0 0}
+  .callband .btn{padding:15px 28px;font-size:16px}
+
+  /* ---------- footer ---------- */
+  .footer{background:var(--green-footer);color:rgba(255,255,255,.7);padding:40px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+  .footer-brand{display:flex;align-items:center;gap:13px}
+  .footer-brand span{font:700 16px 'Playfair Display',serif;color:#fff}
+  .footer-contact{font-size:14px;overflow-wrap:anywhere}
+  .footer-contact a{color:var(--sage)}
+  .footer-contact a:hover{color:var(--sage-light)}
+  .footer-copy{font-size:13px;color:rgba(255,255,255,.45)}
+
+  /* ---------- tablet / mobile ---------- */
+  @media (max-width:980px){
+    .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:880px){
+    .nav{padding:12px 18px;flex-wrap:wrap;row-gap:10px}
+    a.nav-phone{padding:8px 14px;font-size:14px;margin-left:auto}
+    .nav-links{order:3;width:100%;justify-content:flex-start;flex-wrap:wrap;gap:14px 18px;font-size:14px;margin-left:0}
+    .hero{padding:64px 24px 72px}
+    .section{padding:64px 24px}
+    .section-head{margin-bottom:40px}
+    .warn,.trust,.alt{grid-template-columns:1fr}
+    .callband{padding:36px 24px}
+  }
+
+  /* ---------- small phones ---------- */
+  @media (max-width:560px){
+    .nav{padding:10px 14px}
+    .nav-brand{gap:10px}
+    .nav-brand svg{width:28px;height:28px}
+    .nav-brand-name{font-size:16px}
+    .nav-brand-sub{font-size:8px;letter-spacing:.14em}
+    a.nav-phone{padding:8px 11px;font-size:13px}
+    .nav-links{font-size:13.5px;gap:10px 14px}
+    .hero{padding:60px 18px 68px}
+    .steps{grid-template-columns:1fr}
+    .hero-ctas{flex-direction:column;align-items:center}
+    .hero-ctas .btn{width:100%;max-width:340px;justify-content:center;text-align:center}
+    .section{padding:56px 18px}
+    .warn{padding:22px 18px}
+    .alt-card{padding:22px 18px}
+    .alt-card .btn{width:100%;text-align:center}
+    .callband{padding:32px 18px}
+    .callband .btn{width:100%;text-align:center}
+    .footer{flex-direction:column;align-items:flex-start;gap:12px;padding:32px 18px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <a href="/" class="nav-brand">
+    <svg width="32" height="32" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
+    <span class="nav-brand-text"><span class="nav-brand-name">Cash Consulting</span><span class="nav-brand-sub">Maxwell Rupp · Charlotte, NC</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="/#real-estate">Real Estate</a>
+    <a href="/#support">Business Support</a>
+    <a href="/#about">About</a>
+    <a href="#top" class="is-current" aria-current="page">Remote Help</a>
+  </div>
+  <a href="tel:7042926994" class="btn btn--sage nav-phone">704-292-6994</a>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header id="top" class="hero">
+  <svg class="hero-mark" width="640" height="640" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="30" height="20" rx="3"></rect><path d="M14 33 L26 33"></path><path d="M20 27 L20 33"></path></svg>
+  <div class="hero-inner">
+    <div class="kicker">Remote help from Maxwell</div>
+    <h1>CashDesk</h1>
+    <p class="hero-lede">A small app that lets me see your screen and fix the problem with you, from wherever I am. It only connects when you give me the code, and you can end it any time.</p>
+    <div class="hero-ctas">
+      <a href="/support/download" class="btn btn--sage btn-dl">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#06341e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 L12 15"></path><path d="M7 10.5 L12 15.5 L17 10.5"></path><path d="M5 20 L19 20"></path></svg>
+        Download CashDesk for Windows
+      </a>
+      <a href="tel:7042926994" class="btn btn--outline">Call&nbsp;704&#8209;292&#8209;6994</a>
+    </div>
+    <div class="hero-fine">FREE FOR CLIENTS · WINDOWS · CASHDESK.EXE</div>
+    <p class="hero-alt">Also for <a href="/support/download/linux">Ubuntu</a> · <a href="/support/download/android">Android</a> — <a href="#other-devices">how those work</a></p>
+  </div>
+</header>
+
+<!-- ============ STEPS ============ -->
+<section id="steps" class="section section--paper">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Four steps, about two minutes</div>
+      <h2>How it works</h2>
+      <p>Keep me on the phone while you do this. I'll walk you through it.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Download</h3>
+        <p>Click <b>Download CashDesk</b> above. Your browser saves <b>CashDesk.exe</b>, usually to your Downloads folder.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Open it</h3>
+        <p>Double-click the file. If Windows shows a blue warning, click <b>More info</b>, then <b>Run anyway</b>. See below for why.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Read me your code</h3>
+        <p>CashDesk shows <b>Your ID</b> and a <b>one-time password</b>. Read both to me on the phone.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Click Accept</h3>
+        <p>When I connect, CashDesk asks your permission. Click <b>Accept</b>, and I'll see your screen. Close CashDesk when we're done.</p>
+      </div>
+    </div>
+    <div class="warn">
+      <div class="warn-text">
+        <div class="kicker">About that blue box</div>
+        <h3>"Windows protected your PC"</h3>
+        <p>Windows shows this for any program it hasn't seen many people download. CashDesk is new and built just for my clients, so Windows doesn't know it yet. It isn't a sign that anything is wrong.</p>
+        <p>Click <b>More info</b>, then <b>Run anyway</b>. If you're unsure, stop and call me. I'm happy to stay on the line.</p>
+      </div>
+      <div>
+        <div class="mock" role="img" aria-label="Sketch of the Windows warning, with More info and Run anyway highlighted">
+          <p class="mock-title">Windows protected your PC</p>
+          <p class="mock-body">Microsoft Defender SmartScreen prevented an unrecognized app from starting.</p>
+          <span class="mock-link">More info</span>
+          <div class="mock-row"><span class="mock-btn mock-btn--go">Run anyway</span><span class="mock-btn">Don't run</span></div>
+        </div>
+        <div class="mock-cap">Click "More info" first, then "Run anyway"</div>
+      </div>
+    </div>
+    <div id="other-devices" class="alt">
+      <div class="alt-card">
+        <h3>On Ubuntu or Debian <small>CASHDESK-X86_64.DEB</small></h3>
+        <ol>
+          <li><a href="/support/download/linux">Download the installer</a>. It lands in your Downloads folder.</li>
+          <li>Open a terminal and run <code>sudo apt install ./Downloads/CashDesk-x86_64.deb</code>, then type your password.</li>
+          <li>Open <b>CashDesk</b> from your apps and read me the <b>ID</b> and <b>one-time password</b> it shows.</li>
+        </ol>
+        <a href="/support/download/linux" class="btn btn--green">Download for Ubuntu</a>
+      </div>
+      <div class="alt-card">
+        <h3>On an Android phone or tablet <small>CASHDESK.APK</small></h3>
+        <ol>
+          <li><a href="/support/download/android">Download the app</a> in your phone's browser and open the file when it finishes.</li>
+          <li>If Android asks, <b>allow installs from this browser</b>, then tap <b>Install</b>.</li>
+          <li>Open CashDesk and read me the <b>ID</b> and <b>one-time password</b>. When I connect, tap <b>Accept</b> and allow <b>screen sharing</b> when Android asks.</li>
+        </ol>
+        <a href="/support/download/android" class="btn btn--green">Download for Android</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section id="trust" class="section section--dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">You stay in charge</div>
+      <h2>Nothing happens without you</h2>
+      <p>CashDesk is a remote-support tool, not a back door. Here's what that means in practice.</p>
+    </div>
+    <div class="trust">
+      <div class="trust-card"><h3>Only with your code</h3><p>I can't connect unless you give me the ID and password shown on your screen. The password changes every time.</p></div>
+      <div class="trust-card"><h3>You see everything</h3><p>Every click I make happens on your screen in front of you. Ask me what I'm doing at any point.</p></div>
+      <div class="trust-card"><h3>End it any time</h3><p>Click <b>Disconnect</b> or close CashDesk and the session ends at once. You can uninstall it like any other app.</p></div>
+      <div class="trust-card"><h3>A private connection</h3><p>The connection is encrypted and runs through my own server, not a third-party support company.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="section section--panel">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">
+      <div class="kicker">Good to know</div>
+      <h2>Questions people ask</h2>
+    </div>
+    <div class="qa">
+      <div class="qa-item"><h3>Does it cost anything?</h3><p>No. CashDesk is free for my clients. You only pay for the support work itself, as we agree on the phone.</p></div>
+      <div class="qa-item"><h3>Can you help when I'm not at the computer?</h3><p>For regular clients, I can set CashDesk up with a permanent password so I can do maintenance without you at the keyboard. I'll only do that with your OK, and you can remove it any time.</p></div>
+      <div class="qa-item"><h3>I'm on a Mac, iPhone or iPad.</h3><p>Mac and iPhone/iPad aren't supported yet. CashDesk runs on Windows, Ubuntu and Android. Call me and we'll find another way to get you sorted.</p></div>
+      <div class="qa-item"><h3>Someone else called claiming to be me.</h3><p>I'll only ever send you to cashconsults.com for CashDesk, and I'll be on the phone with you when you use it. If in doubt, hang up and call me on 704&#8209;292&#8209;6994.</p></div>
+    </div>
+    <p class="fine">CashDesk is built on RustDesk, open-source software licensed under AGPL-3.0.<br><a href="https://github.com/gignsky/cashdesk">Source code</a> · <a href="https://github.com/gignsky/cashdesk/releases/latest">Release notes &amp; checksums (SHA256SUMS.txt)</a></p>
+  </div>
+</section>
+
+<!-- ============ CALL BAND ============ -->
+<section class="callband">
+  <div class="wrap callband-inner">
+    <div>
+      <h2>Stuck on a step?</h2>
+      <p>Call or text and I'll talk you through it.</p>
+    </div>
+    <a href="tel:7042926994" class="btn btn--green">Call&nbsp;704&#8209;292&#8209;6994</a>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-brand">
+    <svg width="28" height="28" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
+    <span>Cash Consulting, LLC</span>
+  </div>
+  <div class="footer-contact"><a href="/">← Back to cashconsults.com</a> · <a href="tel:7042926994">704&#8209;292&#8209;6994</a> · <a href="mailto:maxwell@cashconsults.com">maxwell@cashconsults.com</a></div>
+  <div class="footer-copy">© 2026 · Charlotte, NC</div>
+</footer>
+
+</body>
+</html>

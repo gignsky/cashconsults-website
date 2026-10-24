@@ -150,6 +150,16 @@
   .support-card--ask p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.8);margin:0 0 16px}
   .support-card--ask .btn{align-self:flex-start;padding:12px 22px;font-size:15px}
 
+  /* ---------- remote help band ---------- */
+  .helpband{background:var(--sage);padding:44px 56px}
+  .helpband-inner{display:flex;align-items:center;gap:28px;flex-wrap:wrap}
+  .helpband-icon{flex:none;width:72px;height:72px;border-radius:18px;background:var(--green-darkest);display:flex;align-items:center;justify-content:center}
+  .helpband-text{flex:1 1 420px;min-width:0}
+  .helpband-text .kicker{font-size:22px;color:var(--green-darkest);line-height:1}
+  .helpband-text h2{font:700 clamp(26px,5vw,34px)/1.1 'Playfair Display',serif;letter-spacing:-.02em;color:var(--green-darkest);margin:6px 0 8px}
+  .helpband-text p{font-size:16px;line-height:1.6;color:rgba(6,52,30,.82);margin:0;max-width:620px}
+  .helpband .btn{flex:none;padding:15px 28px;font-size:16px}
+
   /* ---------- about ---------- */
   .about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center}
   .about-photo{border-radius:18px;overflow:hidden;border:1px solid rgba(9,77,44,.12);min-height:340px;background:#e6e1d0}
@@ -213,6 +223,7 @@
     .re-grid{grid-template-columns:1fr;gap:24px}
     .re-figure{min-height:0}
     .support-grid{grid-template-columns:1fr}
+    .helpband{padding:36px 24px}
     .about-grid{grid-template-columns:1fr;gap:28px}
     .about-photo{min-height:0;aspect-ratio:4/5;max-width:480px;margin:0 auto;width:100%}
     .about-photo img{min-height:0}
@@ -237,6 +248,8 @@
     .re-pair{grid-template-columns:1fr}
     .re-hero-card{padding:24px 20px}
     .support-card{padding:24px 20px}
+    .helpband{padding:32px 18px}
+    .helpband .btn{width:100%;text-align:center}
     .about-stats{gap:10px}
     .stat{padding:14px}
     .stat-value{font-size:clamp(20px,6vw,30px)}
@@ -261,6 +274,7 @@
     <a href="#real-estate">Real Estate</a>
     <a href="#support">Business Support</a>
     <a href="#about">About</a>
+    <a href="/support/">Remote Help</a>
   </div>
   <a href="#contact" class="btn btn--sage nav-phone">704-292-6994</a>
 </nav>
@@ -408,6 +422,21 @@
   </div>
 </section>
 
+<!-- ============ REMOTE HELP BAND ============ -->
+<section id="remote-help" class="helpband">
+  <div class="wrap helpband-inner">
+    <div class="helpband-icon">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="30" height="20" rx="3"></rect><path d="M14 33 L26 33"></path><path d="M20 27 L20 33"></path><path d="M17 13 L17 22 L19.5 19.5 L22.5 23 L24 22 L21 18.5 L24.5 18 Z"></path></svg>
+    </div>
+    <div class="helpband-text">
+      <div class="kicker">Remote help</div>
+      <h2>Is Maxwell helping you right now?</h2>
+      <p>If he's asked to take a look at your computer, download CashDesk. It's a small app that lets him see your screen, and only once you give him the code.</p>
+    </div>
+    <a href="/support/" class="btn btn--green">Get CashDesk →</a>
+  </div>
+</section>
+
 <!-- ============ ABOUT / TRUST ============ -->
 <section id="about" class="section section--panel">
   <div class="wrap wrap--narrow about-grid">
@@ -467,6 +496,7 @@
             <option>Appraisal + measurements</option>
             <option>Photography</option>
             <option>Tech support</option>
+            <option>Remote help (CashDesk)</option>
             <option>Business data management</option>
             <option>Servers &amp; networking</option>
             <option>Something else</option>
@@ -486,18 +516,19 @@
     <svg width="28" height="28" viewBox="0 0 40 40" fill="none" stroke="#9bc078" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 20 L20 8 L34 20"></path><path d="M10 22 L10 33 L30 33 L30 22"></path></svg>
     <span>Cash Consulting, LLC</span>
   </div>
-  <div class="footer-contact">Maxwell Rupp · <a href="tel:7042926994">704&#8209;292&#8209;6994</a> · <a href="mailto:maxwell@cashconsults.com">maxwell@cashconsults.com</a></div>
+  <div class="footer-contact">Maxwell Rupp · <a href="tel:7042926994">704&#8209;292&#8209;6994</a> · <a href="mailto:maxwell@cashconsults.com">maxwell@cashconsults.com</a> · <a href="/support/">Remote help</a></div>
   <div class="footer-copy">© 2026 · Charlotte, NC</div>
 </footer>
 
 <script>
 document.getElementById('quote-form').addEventListener('submit', function (e) {
   e.preventDefault();
-  var f = e.currentTarget;
-  var body = 'Name: ' + f.name.value + '\nContact: ' + f.contact.value +
-    '\nService: ' + f.service.value + '\n\n' + f.message.value;
+  var form = e.currentTarget;
+  var field = function (name) { return form.elements.namedItem(name).value; };
+  var body = 'Name: ' + field('name') + '\nContact: ' + field('contact') +
+    '\nService: ' + field('service') + '\n\n' + field('message');
   window.location.href = 'mailto:maxwell@cashconsults.com?subject=' +
-    encodeURIComponent('Website inquiry: ' + f.service.value) +
+    encodeURIComponent('Website inquiry: ' + field('service')) +
     '&body=' + encodeURIComponent(body);
 });
 </script>
